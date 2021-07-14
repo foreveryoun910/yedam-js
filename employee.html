@@ -7,8 +7,19 @@
     <title>employee.html</title>
 </head>
 <body>
-    <h1>사원정보</h1>
+    <!-- <h1>사원정보</h1> -->
+    
+    <!-- 입력화면 : id, first_name, last_name, email, gender -->
+    id: <input type="number" id="eid"><br>
+    first name: <input type="text" name="first_name" id="first_name"><br>
+    last name: <input type="text" name="last_name" id="last_name"><br>
+    email: <input type="text" name="email" id="email"><br>
+    gender: <input type="text" name="gender" id="gender"><br>
+    ip address: <input type="text" name="ip_address" id="ip_address"><br>
+    <button id="addBtn" onclick="addRow()">추가</button><br>
+
     <div id="show"></div>
+    
     <script src="js/employee.js"></script>
 </body>
 </html>
