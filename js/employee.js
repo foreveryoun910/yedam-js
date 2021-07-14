@@ -40,6 +40,7 @@ function createTable() {
     createHeader2(); // 타이틀(첫째행) 보여주기
     for (let row of obj) {
         let trTag = document.createElement('tr');
+        trTag.setAttribute('id', row.id);
         trTag.onmouseover = changeColor; // click event가 발생할 때 실행할 함수 -> () 안 써줌
         trTag.onmouseout = originColor;
         trTag.onclick = showRow;
@@ -58,7 +59,7 @@ function createTable() {
         // <td><button>삭제</button></td> // 버튼을 추가
 
         let btn = document.createElement('button');
-        btn.onclick = deleteRowId;
+        btn.onclick = deleteRow;
         let text = document.createTextNode('삭제');
         btn.appendChild(text);
         let tdTag = document.createElement('td');
@@ -72,6 +73,24 @@ function createTable() {
 
 
 
+
+
+function modRow() {
+    // id항목의 id의 value속성
+    let id = document.getElementById('eid').value;
+
+    let findTr = document.getElementById(id);
+    findTr.childNodes[1].childNodes[0].nodeValue = document.getElementById('first_name').value = first_name;
+    findTr.childNodes[2].childNodes[0].nodeValue = document.getElementById('last_name').value = last_name;
+    findTr.childNodes[3].childNodes[0].nodeValue = document.getElementById('email').value = email;
+    findTr.childNodes[4].childNodes[0].nodeValue = document.getElementById('gender').value = gender;
+    findTr.childNodes[5].childNodes[0].nodeValue = document.getElementById('ip_address').value = ip_address; 
+    console.log(findTr);
+}
+
+
+
+
 function showRow() {
     let inputs = document.getElementsByTagName('input');
     // document.querySelectorAll();
@@ -80,19 +99,19 @@ function showRow() {
         inputs[i].value = this.childNodes[i].childNodes[0].nodeValue;
     }
 
-    // let id = this.childNodes[0].childNodes[0].nodeValue;
-    // let first_name = this.childNodes[1].childNodes[0].nodeValue;
-    // let last_name = this.childNodes[2].childNodes[0].nodeValue;
-    // let email = this.childNodes[3].childNodes[0].nodeValue;
-    // let gender = this.childNodes[4].childNodes[0].nodeValue;
-    // let ip_address = this.childNodes[5].childNodes[0].nodeValue;
+    let id = this.childNodes[0].childNodes[0].nodeValue;
+    let first_name = this.childNodes[1].childNodes[0].nodeValue;
+    let last_name = this.childNodes[2].childNodes[0].nodeValue;
+    let email = this.childNodes[3].childNodes[0].nodeValue;
+    let gender = this.childNodes[4].childNodes[0].nodeValue;
+    let ip_address = this.childNodes[5].childNodes[0].nodeValue;
 
-    // document.getElementById('eid').value = id;
-    // document.getElementById('first_name').value = first_name;
-    // document.getElementById('last_name').value = last_name;
-    // document.getElementById('email').value = email;
-    // document.getElementById('gender').value = gender;
-    // document.getElementById('ip_address').value = ip_address;   
+    document.getElementById('eid').value = id;
+    document.getElementById('first_name').value = first_name;
+    document.getElementById('last_name').value = last_name;
+    document.getElementById('email').value = email;
+    document.getElementById('gender').value = gender;
+    document.getElementById('ip_address').value = ip_address;   
 }
 
 
@@ -118,7 +137,7 @@ function addRow() { // 사용자의 입력값을 받아서 테이블에 행 추�
     }
 
     let btn = document.createElement('button');
-    btn.onclick = deleteRowId;
+    btn.onclick = deleteRow;
     let text = document.createTextNode('삭제');
     btn.appendChild(text);
     let tdTag = document.createElement('td');
@@ -131,13 +150,16 @@ function addRow() { // 사용자의 입력값을 받아서 테이블에 행 추�
 
 
 
-function deleteRow() { // 한 라인 삭제
-    console.log(this.parentNode.parentNode.remove());
-             // this.tr단위.td단위.remove();
-}
+// function deleteRow() { // 한 라인 삭제
+//     console.log(this.parentNode.parentNode.remove());
+//              // this.tr단위.td단위.remove();
+// }
 
 
-function deleteRowId() { // id를 기준으로 데이터 삭제
+function deleteRow(e) { // id를 기준으로 데이터 삭제
+    alert('삭제합니다.');
+    // 이벤트 전파 차단
+    e.stopPropagation();
     // 화면에서 삭제
     let id = this.parentNode.parentNode.childNodes[0].childNodes[0].nodeValue; // 해당 node의 값과 데이터의 값을 비교하기 위해 nodeValue로 값 가져오기
     console.log(id);
