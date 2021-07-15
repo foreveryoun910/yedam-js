@@ -27,7 +27,7 @@ public class ModifyServlet extends HttpServlet {
 
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		//입력요청된 정보를 읽어옴
 		String eid = request.getParameter("eid");
@@ -45,11 +45,10 @@ public class ModifyServlet extends HttpServlet {
 		
 		EmpDAO dao = new EmpDAO();
 		dao.updateEmp(emp);
-		
 		Gson gson = new GsonBuilder().create();
 		
-		PrintWriter out = response.getWriter();
-		out.println(gson.toJson(emp)); // json 타입으로 결과 반환
+		//PrintWriter out = response.getWriter();
+		response.getWriter().println(gson.toJson(emp)); // json 타입으로 결과 반환
 	}
 
 

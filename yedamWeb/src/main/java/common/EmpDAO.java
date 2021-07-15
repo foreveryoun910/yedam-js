@@ -43,7 +43,7 @@ public class EmpDAO extends DBCon {
 	
 	public void updateEmp(Employee emp) {
 		conn = DBCon.getConnect();
-		String sql = "update empl_demo set first_name=? last_name=? email=? hire_date=? where employee_id=?";
+		String sql = "update empl_demo set first_name=?, last_name=?, email=?, hire_date=? where employee_id=?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, emp.getFirstName());
@@ -52,6 +52,8 @@ public class EmpDAO extends DBCon {
 			psmt.setString(4, emp.getHireDate());		
 			psmt.setInt(5, emp.getEmployeeId());
 			psmt.executeUpdate();
+			// int r = psmt.executeUpdate();
+			// System.out.println(r + "건 변경되었습니다.");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

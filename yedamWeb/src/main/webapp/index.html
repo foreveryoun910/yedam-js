@@ -15,6 +15,7 @@
 		<!-- <input type="submit" value="전송"> -->
 		<button type="button" onclick="frm_submit()">등록</button>
 		<button type="button" onclick="frm_update()">수정</button>
+		<button type="button" onclick="frm_delete()">삭제</button>
 	</form>
 	<script>
 	
@@ -185,7 +186,12 @@
 					alert('ok');
 					const data = JSON.parse(xhtp.responseText);
 					// data.employeeId 필드를 사용해서 테이블에서 tr의 id값이 같은 요소
-					document.getElementById(data.employeeId); // tr 찾으려고
+					const findTr = document.getElementById(data.employeeId); // tr 찾으려고
+					findTr.childNodes[1].childNodes[0].nodeValue = data.firstName;
+					findTr.childNodes[2].childNodes[0].nodeValue = data.lastName;
+					findTr.childNodes[3].childNodes[0].nodeValue = data.email;
+					findTr.childNodes[4].childNodes[0].nodeValue = data.hireDate;
+				}
 			}
 			
 		} // end of frm_update()
