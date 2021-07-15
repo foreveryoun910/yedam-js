@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>반갑습니다.</h1>
+	<form id='frm' action="RegisterServlet" method="get">
+		id: <input type="text" name="eid"><br>
+		first name: <input type="text" name="first_name"><br>
+		last name: <input type="text" name="last_name"><br>
+		email: <input type="text" name="email"><br>
+		hire date: <input type="text" name="hire_date"><br><br>
+		<!-- <input type="submit" value="전송"> -->
+		<button type="button" onclick="frm_submit()">등록</button>
+		<button type="button" onclick="frm_update()">수정</button>
+	</form>
+	<script>
+	
+		// 리스트 보여주기
+		function ajaxFuc() {
+	
+			let xhtp = new XMLHttpRequest();
+			xhtp.open("get", "EmpListServlet");
+			xhtp.send();
+			xhtp.onreadystatechange = function() {
+				if(xhtp.readyState == 4 && xhtp.status == 200) {
+					let data = JSON.parse(xhtp.responseText);
+					console.log(data);
+					showEmpList(data);
+				}
+			}
+		}
+		ajaxFuc();
+		
+		
+		function frm_submit() {
+			if (frm.eid.value == "") {
+				alert("id 입력 확인");
+				frm.eid.focus();
+				return;
+			}
+			if (frm.first_name.value == "") {
+				alert("first name 입력 확인");
+				frm.first_name.focus();
+				return;
+			}
+			if (frm.last_name.value == "") {
+				alert("last name 입력 확인");
+				frm.last_name.focus();
+				return;
+			}
+			if (frm.email.value == "") {
+				alert("email 입력 확인");
+				frm.email.focus();
+				return;
+			}
+			if (frm.hire_date.value == "") {
+				alert("hire date 입력 확인");
+				frm.hire_date.focus();
+				return;
+			}
+			
+			let xhtp = new XMLHttpRequest();
+			const id = document.querySelectorAll('input[name="eid"]')[0].value;
+			const first_name = document.querySelectorAll('input[name="first_name"]')[0].value;
+			const last_name = document.querySelectorAll('input[name="last_name"]')[0].value;
+			const email = document.querySelectorAll('input[name="email"]')[0].value;
+			const hire_date = document.querySelectorAll('input[name="hire_date"]')[0].value;
+			const parameter = 'eid=' + id + '&first_name=' + first_name + '&last_name=' + last_name + '&email=' + email + '&hire_date=' + hire_date; 
+			
+			xhtp.open("get", "RegisterServlet?"+parameter);
+			xhtp.send();
+			xhtp.onreadystatechange = function() {
+				if(xhtp.readyState == 4 && xhtp.status == 200) {
+					alert('ok');
+					const data = JSON.parse(xhtp.responseText);
+					//data.id;
+					//data.first_name;
+					//data.last_name;
+					//data.email;
+					//data.hire_date;
+					
+					let trTag = document.createElement('tr');
+					for(let field in data) {
+						let tdTag = document.createElement('td');
+						let text = document.createTextNode(data[field]);
+						tdTag.appendChild(text);
+						trTag.appendChild(tdTag);
+					}
+					
+					document.getElementsByTagName('table')[0].appendChild(trTag);
+				}
+			}
+		} // end of frm_submit()
+		
+		
+		
+
+		let tableTag = document.createElement('table');
+		let titles = ['employeeId', 'firstName', 'lastName', 'email', 'hireDate'];
+	
+		 function showEmpList(data) {
+			tableTag.setAttribute('border', '1');
+			
+			let caption = document.createElement('caption');
+			caption.appendChild(document.createTextNode('사원리스트'));
+			tableTag.appendChild(caption);
+			showTitle();
+			
+			// 전체 데이터를 가져와서 반복문으로 (필드명 + 필드값)
+			for (let row of data) { // 데이터 건수만큼 반복
+				let trTag = document.createElement('tr');
+				trTag.setAttribute('id', row.employeeId); // gson 사용해서 json 타입으로 가져와서 필드 이름을 employeeId로 가져오기 때문에 맞춰줘야 함
+				trTag.onclick = trClick; // 테이블의 tr 부분을 클릭하면 trClick 함수를 실행한다
+				for(let field in row) {
+					let tdTag = document.createElement('td');
+					let text = document.createTextNode(row[field]);
+					tdTag.appendChild(text);
+					trTag.appendChild(tdTag);
+				}
+				
+	/* 			let btn = document.createElement('button');
+				let text = document.createTextNode('del');
+				btn.appendChild(text);
+				let tdTag = document.createElement('td');
+				tdTag.appendChild(btn);
+				trTag.appendChild(tdTag); */
+				
+				tableTag.appendChild(trTag);
+			}
+			document.getElementById("show").appendChild(tableTag);
+		} // end of showEmpList()
+	
+	
+	
+	
+		function showTitle() {
+			let trTag = document.createElement('tr');
+			for (let field of titles) {
+				let thTag = document.createElement('th');
+				let text = document.createTextNode(field);
+				thTag.appendChild(text);
+				trTag.appendChild(thTag);
+			}
+			tableTag.appendChild(trTag);
+		} // end of showTitle()
+		
+		
+		function trClick() {
+			const eid = this.getAttribute('id'); // 값 선언
+			const xhtp = new XMLHttpRequest();
+			xhtp.open('get', 'EmployeeServlet?eid='+eid); // 'EmployeeServlet?eid='+eid : 파라미터+값
+			xhtp.send();
+			xhtp.onreadystatechange = function() {
+				if (xhtp.readyState == 4 && xhtp.status == 200) { // 정상적으로 서버의 결과를 받아왔다면
+					const data = JSON.parse(xhtp.responseText);
+					document.querySelector('input[name="eid"]').value = data.employeeId; // eid 값을 넣으면 나오는 값에?자리에? 데이터의 employeeId의 값을 넣음
+					document.querySelector('input[name="first_name"]').value = data.firstName;
+					document.querySelector('input[name="last_name"]').value = data.lastName;
+					document.querySelector('input[name="email"]').value = data.email;
+					document.querySelector('input[name="hire_date"]').value = data.hireDate;
+					
+				}
+			}
+			
+		} // end of trClick()
+		
+		
+		// 수정버튼기능
+		function frm_update() { // ModifyServlet을 호출하는 AJAX
+			let xhtp = new XMLHttpRequest();
+			const id = document.querySelectorAll('input[name="eid"]')[0].value;
+			const first_name = document.querySelectorAll('input[name="first_name"]')[0].value;
+			const last_name = document.querySelectorAll('input[name="last_name"]')[0].value;
+			const email = document.querySelectorAll('input[name="email"]')[0].value;
+			const hire_date = document.querySelectorAll('input[name="hire_date"]')[0].value;
+			const parameter = 'eid=' + id + '&first_name=' + first_name + '&last_name=' + last_name + '&email=' + email + '&hire_date=' + hire_date; 
+			
+			xhtp.open("get", "ModifyServlet?"+parameter);
+			xhtp.send();
+			xhtp.onreadystatechange = function() {
+				if(xhtp.readyState == 4 && xhtp.status == 200) {
+					alert('ok');
+					const data = JSON.parse(xhtp.responseText);
+					// data.employeeId 필드를 사용해서 테이블에서 tr의 id값이 같은 요소
+					document.getElementById(data.employeeId); // tr 찾으려고
+			}
+			
+		} // end of frm_update()
+		
+	</script>
+	<div id="show"></div>
+</body>
+</html>
