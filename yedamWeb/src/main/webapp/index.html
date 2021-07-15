@@ -15,9 +15,31 @@
 		<!-- <input type="submit" value="전송"> -->
 		<button type="button" onclick="frm_submit()">등록</button>
 		<button type="button" onclick="frm_update()">수정</button>
-		<button type="button" onclick="frm_delete()">삭제</button>
+		<!-- <button type="button" onclick="frm_delete()">삭제</button> -->
+		<button type="button" id="btnDel">삭제</button>
 	</form>
 	<script>
+	
+		document.getElementById('btnDel').addEventListener('click', frm_delete);
+		
+ 		function frm_delete() {
+ 			//console.log(this.getAttribute('id')); // id 값 읽어오기
+ 			let xhtp = new XMLHttpRequest();
+			const id = document.querySelectorAll('input[name="eid"]')[0].value;
+
+			xhtp.open("get", "DeleteServlet?eid="+id);
+			xhtp.send();
+			xhtp.onreadystatechange = function() {
+				if(xhtp.readyState == 4 && xhtp.status == 200) {
+					alert('ok');
+					const data = JSON.parse(xhtp.responseText);
+					
+					document.getElementById(id).remove();
+				}
+			}
+		}
+		
+		
 	
 		// 리스트 보여주기
 		function ajaxFuc() {
@@ -195,6 +217,7 @@
 			}
 			
 		} // end of frm_update()
+		
 		
 	</script>
 	<div id="show"></div>

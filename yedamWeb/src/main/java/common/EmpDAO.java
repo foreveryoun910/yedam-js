@@ -15,6 +15,23 @@ public class EmpDAO extends DBCon {
 	
 	
 	
+	public Employee deleteEmp(Employee emp) {
+		conn = DBCon.getConnect();
+		String sql = "delete from empl_demo where employee_id=?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, emp.getEmployeeId());
+			psmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return emp;
+	}
+	
+	
+	
+	
 	public Employee selectEmp(String employeeId) {
 		conn = DBCon.getConnect();
 		String sql = "select * from empl_demo where employee_id=?";
