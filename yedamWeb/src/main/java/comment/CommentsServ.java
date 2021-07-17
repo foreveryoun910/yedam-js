@@ -54,6 +54,12 @@ public class CommentsServ extends HttpServlet {
 			comment.setContent(request.getParameter("content"));
 			HashMap<String, Object> map = CommentsDAO.getInstance().insertComment(comment);
 			out.println(toXML(map));
+		} else if(cmd.equals("updateComment")) {
+			Comments comment = new Comments();
+			comment.setName(request.getParameter("name"));
+			comment.setContent(request.getParameter("content"));
+			HashMap<String, Object> map = CommentsDAO.getInstance().updateComment(comment);
+			out.println(toXML(map));
 		}
 	} // end of doGet
 	

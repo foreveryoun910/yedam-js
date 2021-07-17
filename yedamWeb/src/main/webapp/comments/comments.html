@@ -117,8 +117,42 @@
 		
 		// ajax 호출 수정
 		function updateComment() {
+			let name = updateForm.name.value;
+			let content = updateForm.content.value;
 			
+			let parameter = "&name=" + name + "&content=" + content;
+			
+			// ajax 호출
+			let xhtp = new XMLHttpRequest(); // 특정 위치의 파일을 읽어오도록 함
+			xhtp.open('get', '../CommentsServ?cmd=updateComment'+parameter); // comments 파일과 CommentServ 파일 경로가 다름(한 단계 위로 올라가야함) -> ../
+			xhtp.send();
+			xhtp.onreadystatechange = updateResult;
 		}
+		
+		
+		// 수정 콜백 함수
+		function updateResult() {
+			// 복붙 -----------------------------------------------------수정중
+			if (this.readyState == 4 && this.status == 200) {
+				// string -> xml
+				let xmp = new DOMParser();
+				let xmlDoc = xmp.parseFromString(this.responseText, 'text/xml');
+				let code = xmlDoc.getElementsByTagName('code').item(0).innerHTML; // 첫번째 <code> 태그 // [0] == item(0)
+				let listDiv = document.getElementById('commentList'); // id값이 commentList인 태그를 불러온다.
+				if (code == 'success') {
+					//let comment = eval(xmlDoc.getElementsByTagName('data').item(0).innerHTML);
+					let comment = JSON.parse(xmlDoc.getElementsByTagName('data').item(0).innerHTML);
+					//listDiv.appendChild(makeCommentView(comment)); // 이벤트 일어나면 새로고침 안 해도 바로 화면에 출력되는 코드
+					
+					updateForm.name.value = ''; // 등록하고나면 입력칸 비우기
+					updateForm.content.value = ''; // 등록하고나면 입력칸 비우기
+					alert("[ " + comment.id + " ]번 수정되었습니다!");
+				} else if (code == 'error') {
+					alert('error');
+				}
+				console.log(xmlDoc);
+			}
+		} // end of updateResult()
 		
 	</script>
 </head>
