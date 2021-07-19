@@ -30,11 +30,14 @@
 		$('#plus').on('click', function() {
 			console.log($('.subject option').eq(0));
 			console.log($('#subject option:selected'));
-			$('.reject').append($('.subject option:selected'));
+			// $('select[name="reject"]').append($('select[name="subject"] option:selected'));
+			$('select').eq(1).append($('select:eq(0) option:selected'));
 		});
 		
 		$('#minus').on('click', function() {
-			$('.subject').append($('.reject option:selected'));
+			console.log($('option').eq(0));
+			// $('.subject').append($('.reject option:selected'));
+			$('select').eq(0).append($('select:eq(1) option:selected'));
 		});
 	</script>
 </body>
