@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>jquery.html</title>
+	<script src="js/jquery-3.6.0.min.js"></script>
+	<script>
+ 		// $(document).ready(function() {
+		// }); // document가 준비가 되면 function()을 실행
+		
+		// arrow 함수로 표현 가능 (like 람다식)
+		$(document).ready(() => {
+			$('#show').html('<b>Hello, World!</b>'); // id값이 show인 ..을 html으로 실행(?)
+			console.log($('#show').html());
+
+			const ulTag = $('<ul />').attr('id', 'fruit').append( // attr(): 속성 붙이기
+				$('<li />').text('Apple'), 
+				$('<li />').text('Banana'), 
+				$('<li />').text('Cherry')
+			);
+			// $(ulTag).css('background-color', 'yellow').css('color', 'red'); // = attr();
+			$(ulTag).css({
+				'background-color': 'yellow', 
+				'color': 'red'}); // object형식({})으로 속성 여러 개 담기
+			$('#show').append(ulTag);
+
+			// $('#delBtn').on('click', function() {
+			// });
+
+			$('#delBtn').on('click', delFunc);
+
+			// 삭제버튼 클릭시 실행할 콜백함수
+			function delFunc() {
+				$('#show li').last().remove();
+				// = $('#show > ul > li') 가능
+				// $('#show > li') <- #show 태그의 바로 밑에 있는 자식을 불러옴. 하지만 바로 밑에 ul 뿐이라서 아무 일도 x
+			}
+
+
+		});
+	</script>
+</head>
+
+<body>
+	<button id="delBtn">삭제</button>
+	<div id="show">
+		<!-- <ul>
+			<li>Apple</li>
+			<li>Banana</li>
+			<li>Cherry</li>
+		</ul> -->
+	</div>
+</body>
+</html>
