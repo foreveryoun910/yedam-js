@@ -17,19 +17,48 @@ public class CommentsDAO extends DAO {
 	}
 	
 	
+	// 삭제
+	public HashMap<String, Object> deleteComment(Comments comment) {
+		connect();
+		String sql = "delete from comments where id=?";
+		HashMap<String, Object> map = null;
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, comment.getId());
+			int r = psmt.executeUpdate();
+			System.out.println(r + "건 삭제되었습니다.");
+			
+			map = new HashMap<String, Object>();
+			map.put("id", comment.getId());
+			map.put("code", "success");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			map = new HashMap<String, Object>();
+			map.put("code", "error");
+		} finally {
+			disconnect();
+		}
+		return map;
+	} // end of deleteComment()
+	
+	
 	// 수정
 	public HashMap<String, Object> updateComment(Comments comment) {
 		connect();
 		String sql = "update comments set name=?, content=? where id=?";
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		HashMap<String, Object> map = null;
 		
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, comment.getName());
 			psmt.setString(2, comment.getContent());
 			psmt.setString(3, comment.getId());
-			psmt.executeUpdate();
+			int r = psmt.executeUpdate();
+			System.out.println(r + "건 수정되었습니다.");
 			
+			map = new HashMap<String, Object>();
 			map.put("id", comment.getId());
 			map.put("name", comment.getName());
 			map.put("content", comment.getContent());
@@ -37,6 +66,8 @@ public class CommentsDAO extends DAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			map = new HashMap<String, Object>();
+			map.put("code", "error");
 		} finally {
 			disconnect();
 		}

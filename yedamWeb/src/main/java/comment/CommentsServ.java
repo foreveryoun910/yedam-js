@@ -48,17 +48,28 @@ public class CommentsServ extends HttpServlet {
 		} else if(cmd.equals("selectAll")) { // cmd가 selectAll으로 넘어오면 전체조회
 			List<HashMap<String, Object>> list = CommentsDAO.getInstance().selectAll();
 			out.print(selectAll(list));
+			
 		} else if(cmd.equals("insertComment")) {
 			Comments comment = new Comments();
 			comment.setName(request.getParameter("name"));
 			comment.setContent(request.getParameter("content"));
 			HashMap<String, Object> map = CommentsDAO.getInstance().insertComment(comment);
 			out.println(toXML(map));
+			
 		} else if(cmd.equals("updateComment")) {
+			response.setContentType("text/xml;charset=utf-8");
 			Comments comment = new Comments();
+			comment.setId(request.getParameter("id"));
 			comment.setName(request.getParameter("name"));
 			comment.setContent(request.getParameter("content"));
 			HashMap<String, Object> map = CommentsDAO.getInstance().updateComment(comment);
+			out.println(toXML(map));
+			
+		} else if(cmd.equals("deleteComment")) {
+			response.setContentType("text/xml;charset=utf-8");
+			Comments comment = new Comments();
+			comment.setId(request.getParameter("id"));
+			HashMap<String, Object> map = CommentsDAO.getInstance().deleteComment(comment);
 			out.println(toXML(map));
 		}
 	} // end of doGet

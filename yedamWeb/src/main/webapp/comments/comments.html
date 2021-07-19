@@ -106,7 +106,9 @@
 			let commentDiv = document.getElementById(commentId); // <div></div>
 			let updateFormDiv = document.getElementById('commentUpdate');
 			
-			commentDiv.appendChild(updateFormDiv); // 수정화면에 id기준으로 정보를 보여주기
+			commentDiv.after(updateFormDiv); // 수정화면에 id기준으로 정보를 보여주기
+			// appendChild: 수정기능이 실행되면서 child로 들어가서 다음 수정 작업을 실행할 수가 없었다.
+			// 그래서 after로 붙여줬다. 그러면 child로 들어가지 않고 뒤에 붙어서 ㄱㄴ임
 			let comment = commentDiv.comment; // id, name, content 정보 불러오기
 			updateForm.id.value = comment.id;
 			updateForm.name.value = comment.name;
@@ -117,43 +119,82 @@
 		
 		// ajax 호출 수정
 		function updateComment() {
-			let name = updateForm.name.value;
-			let content = updateForm.content.value;
+			const id = document.updateForm.id.value;
+			const name = document.updateForm.name.value;
+			const content = document.updateForm.content.value;
 			
-			let parameter = "&name=" + name + "&content=" + content;
+			const parameter = '?cmd=updateComment&id=' + id + '&name=' + name + '&content=' + content;
 			
 			// ajax 호출
-			let xhtp = new XMLHttpRequest(); // 특정 위치의 파일을 읽어오도록 함
-			xhtp.open('get', '../CommentsServ?cmd=updateComment'+parameter); // comments 파일과 CommentServ 파일 경로가 다름(한 단계 위로 올라가야함) -> ../
+			const xhtp = new XMLHttpRequest(); // 특정 위치의 파일을 읽어오도록 함
+			// xhtp.open('요청방식', '요청페이지')
+			xhtp.open('get', '../CommentsServ' + parameter); // comments 파일과 CommentServ 파일 경로가 다름(한 단계 위로 올라가야함) -> ../
 			xhtp.send();
 			xhtp.onreadystatechange = updateResult;
 		}
 		
 		
-		// 수정 콜백 함수
+		// ajax 호출 수정 콜백 함수
 		function updateResult() {
-			// 복붙 -----------------------------------------------------수정중
 			if (this.readyState == 4 && this.status == 200) {
-				// string -> xml
-				let xmp = new DOMParser();
-				let xmlDoc = xmp.parseFromString(this.responseText, 'text/xml');
-				let code = xmlDoc.getElementsByTagName('code').item(0).innerHTML; // 첫번째 <code> 태그 // [0] == item(0)
-				let listDiv = document.getElementById('commentList'); // id값이 commentList인 태그를 불러온다.
+				const xmlDoc = this.responseXML;
+				const code = xmlDoc.getElementsByTagName('code')[0].firstChild.nodeValue; // 첫번째 <code> 태그 // [0] == item(0)
+				
 				if (code == 'success') {
-					//let comment = eval(xmlDoc.getElementsByTagName('data').item(0).innerHTML);
-					let comment = JSON.parse(xmlDoc.getElementsByTagName('data').item(0).innerHTML);
-					//listDiv.appendChild(makeCommentView(comment)); // 이벤트 일어나면 새로고침 안 해도 바로 화면에 출력되는 코드
+					const comment = JSON.parse(xmlDoc.getElementsByTagName('data')[0].firstChild.nodeValue); // 새로 넣어준 값을 comment에 넣어주고?
+					//listDiv.appendChild(makeCommentView(comment)); // 이벤트 일어나면 새로고침 안 해도 바로 화면에 추가되는 코드
+					const listDiv = document.getElementById('commentList'); // id값이 commentList인 태그를 불러온다.
+					const commentDiv = makeCommentView(comment); // 새로운 값을 보여주도록 commentDiv를 만들어주고?
+					const oldCommentDiv = document.getElementById(comment.id); // 바뀌기 전의 comment
+					listDiv.replaceChild(commentDiv, oldCommentDiv);
+					document.getElementById('commentUpdate').style.display = 'none'; 
+					// 109라인을 after로 수정하고 나니까 변경 후에도 변경창이 없어지지 않았다.
+					// 150라인을 추가해서 기능 실행 후 display에서 보이지 않게 설정해주었다.
 					
-					updateForm.name.value = ''; // 등록하고나면 입력칸 비우기
-					updateForm.content.value = ''; // 등록하고나면 입력칸 비우기
+					//updateForm.name.value = ''; // 등록하고나면 입력칸 비우기
+					//updateForm.content.value = ''; // 등록하고나면 입력칸 비우기
 					alert("[ " + comment.id + " ]번 수정되었습니다!");
-				} else if (code == 'error') {
+				} else {
 					alert('error');
 				}
 				console.log(xmlDoc);
 			}
 		} // end of updateResult()
 		
+		
+		// 수정취소버튼
+		function cancelUpdate() {
+			document.getElementById('commentUpdate').style.display = 'none';
+		}
+		
+		
+		// 삭제처리
+		function confirmDeletion(id) {
+			const xhtp = new XMLHttpRequest();
+			xhtp.open('get', '../CommentsServ?cmd=deleteComment&id=' + id);
+			xhtp.send();
+			xhtp.onreadystatechange = deleteResult;
+		}
+		
+		// 삭제콜백
+		function deleteResult() {
+			if (this.readyState == 4 && this.status == 200) {
+				const xmlDoc = this.responseXML;
+				const code = xmlDoc.getElementsByTagName('code')[0].firstChild.nodeValue; // 첫번째 <code> 태그 // [0] == item(0)
+				
+				if (code == 'success') {
+					const comment = JSON.parse(xmlDoc.getElementsByTagName('data')[0].firstChild.nodeValue); // 새로 넣어준 값을 comment에 넣어주고?
+					const listDiv = document.getElementById('commentList'); // id값이 commentList인 태그를 불러온다.
+					const oldCommentDiv = document.getElementById(comment.id); // 바뀌기 전의 comment
+					listDiv.removeChild(oldCommentDiv);
+					
+					alert("[ " + comment.id + " ]번 삭제되었습니다!");
+				} else {
+					alert('error');
+				}
+				console.log(xmlDoc);
+			}
+		}
 	</script>
 </head>
 
@@ -179,5 +220,8 @@
 			<input type='button' value='취소' onclick='cancelUpdate()'>
 		</form>
 	</div>
+	<script>
+		document.getElementById('commentList').innerHTML='<h3>Hello</h3>';
+	</script>
 </body>
 </html>
