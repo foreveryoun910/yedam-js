@@ -202,11 +202,15 @@
 		// ajax 호출 수정 콜백 함수
 		function updateResult(result) {
 			const xmlDoc = result;
-			const code = xmlDoc.getElementsByTagName('code')[0].firstChild.nodeValue; // 첫번째 <code> 태그 // [0] == item(0)
+			//console.log(xmlDoc);
+			const code = $(xmlDoc).find('code').html(); // const code = xmlDoc.getElementsByTagName('code')[0].firstChild.nodeValue; // 첫번째 <code> 태그 // [0] == item(0)
+			//console.log(code);
 			if (code == 'success') {
-				const comment = JSON.parse(xmlDoc.getElementsByTagName('data')[0].firstChild.nodeValue); // 새로 넣어준 값을 comment에 넣어주고?
+				const comment = JSON.parse($(xmlDoc).find('data').html()); // 새로 넣어준 값을 comment에 넣어주고?
+				//console.log(comment);
 				//listDiv.appendChild(makeCommentView(comment)); // 이벤트 일어나면 새로고침 안 해도 바로 화면에 추가되는 코드
 				const listDiv = $('#commentList'); // const listDiv = document.getElementById('commentList'); // id값이 commentList인 태그를 불러온다.
+				console.log($(listDiv));
 				const commentDiv = makeCommentView(comment); // 새로운 값을 보여주도록 commentDiv를 만들어주고?
 				const oldCommentDiv = $('#' + comment.id); // document.getElementById(comment.id); // 바뀌기 전의 comment
 				$(oldCommentDiv).replaceWith(commentDiv); // listDiv.replaceChild(commentDiv, oldCommentDiv);
@@ -255,13 +259,13 @@
 		// 삭제콜백
 		function deleteResult(result) {
 			const xmlDoc = result;
-			const code = xmlDoc.getElementsByTagName('code')[0].firstChild.nodeValue; // 첫번째 <code> 태그 // [0] == item(0)
+			const code = $(xmlDoc).find('code').html(); // const code = xmlDoc.getElementsByTagName('code')[0].firstChild.nodeValue; // 첫번째 <code> 태그 // [0] == item(0)
 			
 			if (code == 'success') {
-				const comment = JSON.parse(xmlDoc.getElementsByTagName('data')[0].firstChild.nodeValue); // 새로 넣어준 값을 comment에 넣어주고?
-				const listDiv = document.getElementById('commentList'); // id값이 commentList인 태그를 불러온다.
-				const oldCommentDiv = document.getElementById(comment.id); // 바뀌기 전의 comment
-				listDiv.removeChild(oldCommentDiv);
+				const comment = JSON.parse($(xmlDoc).find('data').html()); // const comment = JSON.parse(xmlDoc.getElementsByTagName('data')[0].firstChild.nodeValue); // 새로 넣어준 값을 comment에 넣어주고?
+				const listDiv = $('#commentList'); // const listDiv = document.getElementById('commentList'); // id값이 commentList인 태그를 불러온다.
+				const oldCommentDiv = $('#' + comment.id); // const oldCommentDiv = document.getElementById(comment.id); // 바뀌기 전의 comment
+				oldCommentDiv.remove(); // listDiv.removeChild(oldCommentDiv);
 				
 				alert("[ " + comment.id + " ]번 삭제되었습니다!");
 			} else {
