@@ -1,7 +1,6 @@
 /*
  * data.js 
  */
-
 data = [
         {
           title: 'All Day Event',
