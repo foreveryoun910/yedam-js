@@ -6,23 +6,33 @@ public class Employee {
 	private String lastName;
 	private String email;
 	private String hireDate;
+	private int salary;
 	
 	
 	
 	
 	public Employee() {}
 	
-	public Employee(int employeeId, String firstName, String lastName, String email, String hireDate) {
+	public Employee(int employeeId, String firstName, String lastName, String email, String hireDate, int salary) {
 		super();
 		this.employeeId = employeeId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.hireDate = hireDate;
+		this.salary = salary;
 	}
 	
 	
 	
+	public int getSalary() {
+		return salary;
+	}
+
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+
 	public int getEmployeeId() {
 		return employeeId;
 	}
@@ -63,13 +73,11 @@ public class Employee {
 		this.hireDate = hireDate;
 	}
 
-
-
+	
 	@Override
 	public String toString() {
 		return "Employee [employeeId=" + employeeId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
-				+ email + ", hireDate=" + hireDate + "]";
+				+ email + ", hireDate=" + hireDate + ", salary=" + salary + "]";
 	}
-
 
 }
