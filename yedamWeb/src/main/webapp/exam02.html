@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>exam02.html</title>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>
+		window.onload = function() {
+			loadCommentList();
+		}
+		
+		// 목록조회
+		function loadCommentList() {
+			let xhtp = new XMLHttpRequest();
+			xhtp.open('get', 'employees.xml');
+			xhtp.send();
+			xhtp.onreadystatechange = loadCommentResult;
+		}
+		
+		// 조회결과
+		function loadCommentResult() {
+			if (this.readyState == 4 && this.status == 200) {
+				// string -> xml
+				let xmp = new DOMParser();
+				let xmlDoc = xmp.parseFromString(this.responseText, 'text/xml');
+
+                }
+		}
+        
+        
+        function onLoadFunc() {
+            $.ajax({
+                url: 'employees.xml',
+                success: successCallback,
+                error: function() {
+                    alert('error');
+                }
+            });
+        }
+
+        function successCallback() {
+            const ulTag = $('<ul />');
+            for(let i=0; i<result.length; i++) {
+                const liTag = $('<li />').attr('emp_id', result[i].emp_id).html(result[i].emp_id, result[i].first_name, result[i].phone_number);
+                ulTag.append(liTag);
+            }
+            $('#show').append(ulTag);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="show"></div>
+</body>
+</html>
