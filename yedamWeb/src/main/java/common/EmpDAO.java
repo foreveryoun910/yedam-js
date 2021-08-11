@@ -112,6 +112,7 @@ public class EmpDAO extends DBCon {
 				emp.setLastName(rs.getString("last_name"));
 				emp.setEmail(rs.getString("email"));
 				emp.setHireDate(rs.getString("hire_date").substring(0, 10));
+				emp.setSalary(rs.getInt("salary"));
 				empList.add(emp);
 			}
 		} catch (SQLException e) {
