@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html charset=utf-8" />
+	<title> </title>
+	<!-- <link href="style.css" rel="stylesheet" type="text/css">	 -->
+	<!-- <script src="./jquery-1.11.1.js"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+	document.title = "학번-홍길동-07";
+	// //javascript 함수 사용 :  getElementById(), createElement(), createTextNode(), appendChild(), setAttribute()
+	// window.onload = function(){
+	// 	//to do
+	// 	// document.getElementById("btn1").onclick = function ()
+	// 	let btn = document.getElementById("btn1");
+	// 	let elem1 = document.getElementById("txt1");
+	// 	let elem2 = document.getElementById("txt2");
+	// 	btn.onclick = function(){
+
+	// 		let v1 = elem1.value;
+	// 		let v2 = elem2.value;
+	// 		// select 하위요소로 추가할 option 태그 생성
+	// 		let option = document.createElement("option");
+	// 		option.innerText = v1 + ' ' + v2;
+	// 		option.setAttribute("id", v1);
+	// 		option.setAttribute("value", v2);
+
+	// 		document.getElementById("list").appendChild(option);
+
+	// 		// val1, val2 초기화
+	// 		elem1.value = "";
+	// 		elem2.value = "";
+
+	// 	}
+	// };
+
+		// $(document).ready(function(){
+		// 	// btn1 요소를 찾아와서 이벤트 등록
+		// 	$('#btn1').on('click', clickFuc);
+
+		// 	function clickFuc(){
+		// 		// $(this); // 이벤트가 발생할 요소를 가리킴, 클릭한 버튼을 찾아올 때?, 버튼이 여러 개일 때 this 키워드 활용해서 부모요소인지 자식요소인지를 찾아옴
+		// 		let v1 = $('input[name="txt1"]').val(); // input 태그 중 속성이 name인 요소의 value 찾아오기, id값이 없다면 이런 식으로 name 사용해서 찾기 가능
+		// 		let v2 = $("#txt2").val();
+		// 		if(v1 == ''){
+		// 			alert('값을 입력하세요');
+		// 			return;
+		// 		}
+		// 		$('#list').append(
+		// 			// 옵션값의 id(option.id), 옵션값의 value(option.value), option.textContent 태그 만들기
+		// 			// $('<option />').attr('id', v1).attr('value', v2);
+		// 			$('<option />').attr({
+		// 				'id': v1, 
+		// 				'value': v2 // option의 id와 value 값을 줬다.
+		// 			}).text(v1 + ' ' + v2)
+
+		// 			); // 자바스크립트는 appendChile, 제이쿼리는 append
+				
+		// 			// 초기화
+		// 			$('input[name="txt1"]').val('');
+		// 			$("#txt2").val('');
+		// 	}
+		// });
+
+		$(document).ready(function(){
+			// btn1 요소를 찾아와서 이벤트 등록
+			$('#btn1').on('click', () => { // arrow function, 이곳의 매개값을 받아서 구문을 실행하겠습니다. 하는 의미
+				window.alert("클릭됨");
+			});
+
+			function clickFuc(){
+				// $(this); // 이벤트가 발생할 요소를 가리킴, 클릭한 버튼을 찾아올 때?, 버튼이 여러 개일 때 this 키워드 활용해서 부모요소인지 자식요소인지를 찾아옴
+				let v1 = $('input[name="txt1"]').val(); // input 태그 중 속성이 name인 요소의 value 찾아오기, id값이 없다면 이런 식으로 name 사용해서 찾기 가능
+				let v2 = $("#txt2").val();
+				if(v1 == ''){
+					alert('값을 입력하세요');
+					return;
+				}
+				$('#list').append(
+					// 옵션값의 id(option.id), 옵션값의 value(option.value), option.textContent 태그 만들기
+					// $('<option />').attr('id', v1).attr('value', v2);
+					$('<option />').attr({
+						'id': v1, 
+						'value': v2 // option의 id와 value 값을 줬다.
+					}).text(v1 + ' ' + v2)
+
+					); // 자바스크립트는 appendChile, 제이쿼리는 append
+				
+					// 초기화
+					$('input[name="txt1"]').val('');
+					$("#txt2").val('');
+			}
+		});
+
+	</script> 
+</head>
+<body>
+<div id="wrapper">
+	<header>문제 07 : DOM에 새로운 요소 추가(javascript)</header>
+	<section>
+		<article> 
+			<input type="text" name="txt1" id="txt1" size="10"/>
+			<input type="text" name="txt2" id="txt2" size="10"/>
+			<input type="button" id="btn1" value="추가"/><br/>
+			<select name="list" id="list" size="10" style="width:220px" > </select>
+		</article>
+	</section>
+</div>
+</body>
+</html>
