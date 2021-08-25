@@ -36,6 +36,7 @@ public class MemberList extends HttpServlet {
 		
 		Gson gson = new GsonBuilder().create();
 		response.getWriter().print(gson.toJson(list));
+		
 	}
 
 }
