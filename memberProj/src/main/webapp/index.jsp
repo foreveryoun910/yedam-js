@@ -4,12 +4,42 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>데이터 입출력 구현</title>
+	<style>
+		.insertf {
+			display: inline-block;
+			float: center;
+		}
+		.insertft {
+			border-spacing: 10px;
+			background-color: #e3fff5;
+			border-radius: 10px;
+			padding: 5px;
+		}
+		.insertfd {
+			background-color: #fcffab;
+			border-style: solid;
+			border-width: 1px;
+		}
+		.btn {
+			width: 90px;
+			height: 30px;
+			margin: 8px;
+		}
+		.insertbtn {
+			display: inline-block;
+			margin: 10px;
+			position: absolute; 
+			top: 4%;
+		}
+	</style>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
 		$(document).ready(function(){
 			// 회원목록 호출
 			$.ajax({
+				method: 'post',
 				url: 'MemberList',
 				dataType: 'json',
 				success: memberList,
@@ -20,9 +50,9 @@
 			
 			// 회원목록 콜백함수
 			let fields = ['id', 'name', 'phone', 'birth', 'address'];
+			let table = $('<table />').attr('border', '1');
 			function memberList(data){
-				let table = $('<table />').attr('border', '1');
-				$(table).append($('<tr />').append('<th>아이디</th><th>이름</th><th>연락처</th><th>생년월일</th><th>주소</th>'));
+				$(table).append($('<tr />').append('<th width="180">아이디</th><th width="80">이름</th><th width="150">연락처</th><th width="130">생년월일</th><th width="60">주소</th>'));
 				for(let i=0; i<data.length; i++){
 					let tr = $('<tr />');
 					for(let field of fields){
@@ -34,11 +64,98 @@
 			$('#show').append(table);
 			}
 			
+			
+			// 회원등록 호출
+			$('#insertFrm').on('submit', function(event){
+				event.preventDefault();
+				console.log('submit');
+				let s = $('#insertFrm').serialize();
+				console.log(s);
+				
+				// 폼전송처리
+				$.ajax({
+					method: 'post',
+					url: $('#insertFrm').attr('action'),
+					data: $('#insertFrm').serialize(),
+					dataType: 'json',
+					success: memberInsert,
+					error: function(){
+						alert('error');
+					}
+				});	
+			});
+			
+			// 회원등록 콜백함수
+			function memberInsert(data){
+				let tr = $('<tr />');
+				for(let field of fields){
+					let td = $('<td />').text(data[field]);
+					$(tr).append(td);
+				}
+				$(table).append(tr);
+			}
+			
+			
+			// 회원조회 호출
+			$('#select').on('click', function(event){
+				event.preventDefault();
+				
+				// 폼전송처리
+				$.ajax({
+					method: 'post',
+					url: 'MemberSelect',
+					dataType: 'json',
+					success: memberSelect,
+					error: function(){
+						alert('error');
+					}
+				});	
+			});			
+			
+			// 회원조회 콜백함수
+			function memberSelect(data){
+				
+			}
+			
+			
 		});
 	</script>
 </head>
 <body>
-	<div align="center"><h3>List</h3></div>
+	<div align="center">
+		<form id="insertFrm" action="MemberInsert" method="post">
+			<div class="insertf">
+					<table class="insertft">
+						<tr>
+							<td class="insertfd">아이디(이메일): </td>
+							<td><input type="text" id="id" name="id"></td>
+							<td>
+								<input type="date" id="birth" name="birth">
+							</td>	
+						</tr>
+						<tr>
+							<td class="insertfd">회원이름: </td>
+							<td><input type="text" id="name" name="name"></td>
+							<td rowspan="3"></td>
+						</tr>
+						<tr>
+							<td class="insertfd">연락처: </td>
+							<td><input type="text" id="phone" name="phone"></td>
+						</tr>	
+						<tr>
+							<td class="insertfd">주소: </td>
+							<td><input type="text" id="address" name="address"></td>
+						</tr>					
+					</table>
+			</div>
+			<div class="insertbtn">
+				<button type="submit" class="btn">등록</button><br>
+				<button id="select" type="button" class="btn">조회</button><br>
+				<button type="button" class="btn">수정</button><br>
+			</div>
+		</form>
+	</div>
+	<div align="center"><h3></h3></div>
 	<div id="show" align="center">
 	</div>
 </body>
