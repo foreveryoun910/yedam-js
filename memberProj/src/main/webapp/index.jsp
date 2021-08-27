@@ -66,17 +66,17 @@
 			
 			
 			// 회원등록 호출
-			$('#insertFrm').on('submit', function(event){
+			$('#insert').on('click', function(event){
 				event.preventDefault();
 				console.log('submit');
-				let s = $('#insertFrm').serialize();
+				let s = $('#frm').serialize();
 				console.log(s);
 				
 				// 폼전송처리
 				$.ajax({
 					method: 'post',
-					url: $('#insertFrm').attr('action'),
-					data: $('#insertFrm').serialize(),
+					url: 'MemberInsert',
+					data: $('#frm').serialize(),
 					dataType: 'json',
 					success: memberInsert,
 					error: function(){
@@ -97,13 +97,13 @@
 			
 			
 			// 회원조회 호출
-			$('#select').on('click', function(event){
-				event.preventDefault();
-				
+			$('#select').on('click', function(){
+				console.log('submit');
 				// 폼전송처리
 				$.ajax({
 					method: 'post',
 					url: 'MemberSelect',
+					data: {id: $('#id').val()},
 					dataType: 'json',
 					success: memberSelect,
 					error: function(){
@@ -114,7 +114,12 @@
 			
 			// 회원조회 콜백함수
 			function memberSelect(data){
-				
+				console.log(data);
+				$('#id').val(data.id);
+				$('#name').val(data.name);
+				$('#phone').val(data.phone);
+				$('#birth').val(data.birth);
+				$('#address').val(data.address);			
 			}
 			
 			
@@ -123,37 +128,37 @@
 </head>
 <body>
 	<div align="center">
-		<form id="insertFrm" action="MemberInsert" method="post">
-			<div class="insertf">
-					<table class="insertft">
-						<tr>
-							<td class="insertfd">아이디(이메일): </td>
-							<td><input type="text" id="id" name="id"></td>
-							<td>
-								<input type="date" id="birth" name="birth">
-							</td>	
-						</tr>
-						<tr>
-							<td class="insertfd">회원이름: </td>
-							<td><input type="text" id="name" name="name"></td>
-							<td rowspan="3"></td>
-						</tr>
-						<tr>
-							<td class="insertfd">연락처: </td>
-							<td><input type="text" id="phone" name="phone"></td>
-						</tr>	
-						<tr>
-							<td class="insertfd">주소: </td>
-							<td><input type="text" id="address" name="address"></td>
-						</tr>					
-					</table>
-			</div>
-			<div class="insertbtn">
-				<button type="submit" class="btn">등록</button><br>
-				<button id="select" type="button" class="btn">조회</button><br>
-				<button type="button" class="btn">수정</button><br>
-			</div>
-		</form>
+		<div class="insertf">
+			<form id="frm" method="post">
+				<table class="insertft">
+					<tr>
+						<td class="insertfd">아이디(이메일): </td>
+						<td><input type="text" id="id" name="id"></td>
+						<td>
+							<input type="date" id="birth" name="birth">
+						</td>	
+					</tr>
+					<tr>
+						<td class="insertfd">회원이름: </td>
+						<td><input type="text" id="name" name="name"></td>
+						<td rowspan="3"></td>
+					</tr>
+					<tr>
+						<td class="insertfd">연락처: </td>
+						<td><input type="text" id="phone" name="phone"></td>
+					</tr>	
+					<tr>
+						<td class="insertfd">주소: </td>
+						<td><input type="text" id="address" name="address"></td>
+					</tr>					
+				</table>
+			</form>
+		</div>
+		<div class="insertbtn">
+			<button id="insert" type="submit" class="btn">등록</button><br>
+			<button id="select" type="submit" class="btn">조회</button><br>
+			<button id="update" type="submit" class="btn">수정</button><br>
+		</div>
 	</div>
 	<div align="center"><h3></h3></div>
 	<div id="show" align="center">
