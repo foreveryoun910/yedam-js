@@ -52,17 +52,22 @@
 			let fields = ['id', 'name', 'phone', 'birth', 'address'];
 			let table = $('<table />').attr('border', '1');
 			function memberList(data){
-				$(table).append($('<tr />').append('<th width="180">아이디</th><th width="80">이름</th><th width="150">연락처</th><th width="130">생년월일</th><th width="60">주소</th>'));
+				$(table).append($('<tr />').append('<th width="180">아이디</th><th width="80">이름</th><th width="150">연락처</th><th width="130">생년월일</th><th width="50">주소</th><th width="50">삭제</th>'));
 				for(let i=0; i<data.length; i++){
 					let tr = $('<tr />');
 					for(let field of fields){
 						let td = $('<td />').text(data[i][field]);
 						$(tr).append(td);
 					}
+					let deltd = $('<td />');
+					let del = $('<button />').text('삭제').attr('id', 'delete');
+					$(deltd).append(del);
+					$(tr).append(deltd);
 				$(table).append(tr);
 				}
 			$('#show').append(table);
 			}
+			
 			
 			
 			// 회원등록 호출
@@ -92,8 +97,13 @@
 					let td = $('<td />').text(data[field]);
 					$(tr).append(td);
 				}
+				let del = $('<button />').text('삭제').attr('id', 'delete');
+				let deltd = $('<td />');
+				$(deltd).append(del);
+				$(tr).append(deltd);
 				$(table).append(tr);
 			}
+			
 			
 			
 			// 회원조회 호출
@@ -122,6 +132,52 @@
 				$('#address').val(data.address);			
 			}
 			
+			
+			
+			// 회원수정 호출
+			$('#update').on('click', function(event){
+				event.preventDefault();
+				console.log('submit');
+				let s = $('#frm').serialize();
+				console.log(s);
+				
+				// 폼전송처리
+				$.ajax({
+					method: 'post',
+					url: 'MemberUpdate',
+					data: $('#frm').serialize(),
+					dataType: 'json',
+					success: function(){
+						alert('수정 성공! 새로고침을 해야 합니다..');
+					},
+					error: function(){
+						alert('error');
+					}
+				});	
+			});		
+			
+			
+			
+			// 회원삭제 호출
+			$('#delete').on('click', function(){
+				console.log('submit');
+				// 폼전송처리
+				$.ajax({
+					method: 'post',
+					url: 'MemberDelete',
+					data: {id: $('#id').val()},
+					success: memberDelete,
+					error: function(){
+						alert('error');
+					}
+				});	
+			});			
+			
+			// 회원삭제 콜백함수
+			function memberDelete(){
+				tr.remove();
+				alert("삭제되었습니다!");
+			}
 			
 		});
 	</script>
