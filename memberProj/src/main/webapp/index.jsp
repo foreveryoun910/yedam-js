@@ -159,7 +159,7 @@
 			
 			
 			// 회원삭제 호출
-			$('#delete').on('click', function(){
+			$(tr).on('click', function(){
 				console.log('submit');
 				// 폼전송처리
 				$.ajax({
@@ -174,7 +174,7 @@
 			});			
 			
 			// 회원삭제 콜백함수
-			function memberDelete(){
+			function memberDelete(data){
 				tr.remove();
 				alert("삭제되었습니다!");
 			}
