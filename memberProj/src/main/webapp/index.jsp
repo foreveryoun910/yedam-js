@@ -66,6 +66,8 @@
 				$(table).append(tr);
 				}
 			$('#show').append(table);
+			
+			trClick();
 			}
 			
 			
@@ -106,30 +108,34 @@
 			
 			
 			
-			// 회원조회 호출
-			$('#select').on('click', function(){
-				console.log('submit');
-				// 폼전송처리
-				$.ajax({
-					method: 'post',
-					url: 'MemberSelect',
-					data: {id: $('#id').val()},
-					dataType: 'json',
-					success: memberSelect,
-					error: function(){
-						alert('error');
-					}
-				});	
-			});			
 			
-			// 회원조회 콜백함수
-			function memberSelect(data){
-				console.log(data);
-				$('#id').val(data.id);
-				$('#name').val(data.name);
-				$('#phone').val(data.phone);
-				$('#birth').val(data.birth);
-				$('#address').val(data.address);			
+			function trClick(){
+				
+				// 회원조회 호출
+				$('#select').on('click', function(){
+					console.log('submit');
+					// 폼전송처리
+					$.ajax({
+						method: 'post',
+						url: 'MemberSelect',
+						data: {id: $('#id').val()},
+						dataType: 'json',
+						success: memberSelect,
+						error: function(){
+							alert('error');
+						}
+					});	
+				});			
+				
+				// 회원조회 콜백함수
+				function memberSelect(data){
+					console.log(data);
+					$('#id').val(data.id);
+					$('#name').val(data.name);
+					$('#phone').val(data.phone);
+					$('#birth').val(data.birth);
+					$('#address').val(data.address);			
+				}
 			}
 			
 			
