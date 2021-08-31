@@ -6,35 +6,30 @@
 <meta charset="UTF-8">
 <title>데이터 입출력 구현</title>
 	<style>
-		.insertf {
-			display: inline-block;
-			float: center;
+		h5:hover {
+			color: gold;
+			transition: color .6s;
 		}
-		.insertft {
-			border-spacing: 10px;
-			background-color: #e3fff5;
-			border-radius: 10px;
-			padding: 5px;
+		.col {
+			float: none;
+			margin: 0 auto;
+			padding: 15px;
 		}
-		.insertfd {
-			background-color: #fcffab;
-			border-style: solid;
-			border-width: 1px;
+		.frmTd {
+			padding: 5px 15px;
 		}
 		.btn {
-			width: 90px;
-			height: 30px;
-			margin: 8px;
-		}
-		.insertbtn {
-			display: inline-block;
-			margin: 10px;
-			position: absolute; 
-			top: 4%;
+		
 		}
 	</style>
 	
+	<!-- jQuery 라이브러리 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<!-- 부트스트랩4 라이브러리 -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
 	<script>
 		$(document).ready(function(){
 			// 회원목록 호출
@@ -189,41 +184,53 @@
 	</script>
 </head>
 <body>
-	<div align="center">
-		<div class="insertf">
-			<form id="frm" method="post">
-				<table class="insertft">
-					<tr>
-						<td class="insertfd">아이디(이메일): </td>
-						<td><input type="text" id="id" name="id"></td>
-						<td>
-							<input type="date" id="birth" name="birth">
-						</td>	
-					</tr>
-					<tr>
-						<td class="insertfd">회원이름: </td>
-						<td><input type="text" id="name" name="name"></td>
-						<td rowspan="3"></td>
-					</tr>
-					<tr>
-						<td class="insertfd">연락처: </td>
-						<td><input type="text" id="phone" name="phone"></td>
-					</tr>	
-					<tr>
-						<td class="insertfd">주소: </td>
-						<td><input type="text" id="address" name="address"></td>
-					</tr>					
-				</table>
-			</form>
+	<div class="container" align="center">
+		<div><h5>Ajax를 활용한 멤버관리</h5></div>
+		<div class="row">
+			<div class="col-lg-8 col">
+				<form id="frm" method="post">
+					<table>
+						<tr>
+							<td class="frmTd">아이디(이메일): </td>
+							<td><input type="text" id="id" name="id"></td>
+						</tr>
+						<tr>
+							<td class="frmTd">회원이름: </td>
+							<td><input type="text" id="name" name="name"></td>
+							<td rowspan="3"></td>
+						</tr>
+						<tr>
+							<td class="frmTd">연락처: </td>
+							<td><input type="text" id="phone" name="phone"></td>
+						</tr>
+						<tr>
+							<td class="frmTd">생년월일: </td>
+							<td><input type="date" id="birth" name="birth"></td>	
+						</tr>	
+						<tr>
+							<td class="frmTd">주소: </td>
+							<td><input type="text" id="address" name="address"></td>
+						</tr>				
+					</table>
+				</form>
+			</div>
+		</div> <!-- end of row -->
+		<div class="row">
+			<div class="col-lg-5 col">	
+				<div>
+					<button id="insert" type="submit" class="btn">등록</button>&nbsp;
+					<button id="select" type="submit" class="btn">조회</button>&nbsp;
+					<button id="update" type="submit" class="btn">수정</button>&nbsp;
+					<button id="delete" type="submit" class="btn">삭제</button>
+				</div>
+			</div>
+		</div>	
+		
+		<div id="show">
 		</div>
-		<div class="insertbtn">
-			<button id="insert" type="submit" class="btn">등록</button><br>
-			<button id="select" type="submit" class="btn">조회</button><br>
-			<button id="update" type="submit" class="btn">수정</button><br>
-		</div>
-	</div>
-	<div align="center"><h3></h3></div>
-	<div id="show" align="center">
-	</div>
+	
+	</div> <!-- end of container -->
+	
+	
 </body>
 </html>
