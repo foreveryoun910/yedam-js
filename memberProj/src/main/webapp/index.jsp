@@ -10,11 +10,12 @@
 		$(document).ready(function(){
 			// 회원목록 호출
 			$.ajax({
-				url: 'MemberList',
+				method: 'post',
+				url: '/MemberList',
 				dataType: 'json',
 				success: memberList,
 				error: function(){
-					alert('error');
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 				}
 			});
 			
