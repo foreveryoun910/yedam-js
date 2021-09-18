@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3 id="title">DOM</h3>
+	<br>
+	<!-- 체크박스는 여러 개 있는 경우가 많기 때문에 id 안 쓰고 name -->
+	<form id="frm" name="frm">
+		<input name="userid">
+		<input type="checkbox" name="hobby">독서
+		<input type="checkbox" name="hobby">운동
+		<select id="fruit" name="fruit"></select><br>
+		<button formaction="bom.html">submit</button>
+	</form>
+	
+	<button type="button" id="btn3">폼전송</button><br>
+	<button type="button" id="btn1">사라지게 하는 버튼</button>
+	<button type="button" id="btn2">나타나게 하는 버튼</button><br>
+	<img src="세븐틴.jpg" id="svt" style="width: 450px; height: 300px;">
+
+	
+<script>
+
+	const btn3 = document.getElementById("btn3");
+	// const frm = document.getElementById("frm");
+	// id값으로는 document.getElementById 안 해줘도 바로 찾을 수 있음
+	
+	btn3.addEventListener("click", function(){
+		
+		// 값 넘기기 전에 입력값 검증
+		// form 안에 있는 요소들은 name으로 바로 찾아갈 수 있도록 제공해준다.
+		// == document.getElement 안 써도 된다는 뜻
+		if(document.frm.userid.value == ""){
+			alert("아이디 입력");
+			return;
+		}
+		
+		// select는 selectedIndex로 검증
+		if(document.frm.fruit.selectedIndex < 1){
+			alert("과일 선택");
+			return;
+		}
+		
+		// 체크박스 유효성 검사는 과제 checked
+		check_chk();
+		
+		
+		function check_chk(){
+			var arr = document.getElementsByName("hobby");
+			var num = 0;
+			
+			for(var i=0; arr.length; i++){
+				if(arr[i].checked){
+					num++;
+				}
+			}
+			if(num == 0){
+				alert("체크하시오");
+				return;
+			}
+		}
+		
+		
+		
+		frm.action = "bom.html";
+		frm.method = "post";
+		frm.submit();
+	});
+
+
+	const svt = document.getElementById("svt");
+	
+	const hide = document.getElementById("btn1");
+	hide.addEventListener("click", function(){
+		svt.style.display = "none";
+	});
+	
+	const block = document.getElementById("btn2");
+	block.addEventListener("click", function(){
+		svt.style.display = "block";
+	});
+	
+	var arr = ["선택", "사과", "바나나", "포도"];
+	
+	var fruit = document.getElementById("fruit");
+	// for() <option value="">ㅎㅎ</option>
+	for(i=0; i<arr.length; i++){
+		var op = document.createElement("option");
+		op.text = arr[i];
+		op.value = arr[i];
+		fruit.add(op);
+	}
+	
+</script>
+</body>
+</html>

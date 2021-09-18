@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>js review</title>
+
+<style>
+	h1 {
+		color: red;
+	}
+	
+	li:hover {
+		color: red;
+		cursor: pointer;
+	}
+	
+</style>
+
+</head>
+<body>
+<h1>The Browser Object Model (BOM)</h1>
+<p>There are no official standards for the Browser Object Model (BOM).</p>
+
+<p>Since modern browsers have implemented (almost) the same methods and properties for JavaScript interactivity, <br> it is often referred to, as methods and properties of the BOM.</p>
+
+<ul>
+	<li>window.open() - open a new window</li>
+	<li class="my">window.close() - close the current window</li>
+	<li id="limove">window.moveTo() - move the current window</li>
+	<li>window.resizeTo() - resize the current window</li>
+</ul>
+
+<p>
+	js: 동적인 처리<br>
+	1. BOM : window 브라우저 제어<br>
+	2. DOM : document event 처리<br>
+	&nbsp;&nbsp; 태그 찾기: getElementXXX()<br>
+	&nbsp;&nbsp; 스타일변경<br>
+	&nbsp;&nbsp; 태그 변경/추가/삭제<br>
+	3. AJAX 
+	
+	<br><br>
+	BOM의 구성요소<br>w3schools 보고 공부하세요<br>
+	window { history, location, screen, navigator... }<br>
+	history - 1 : 이전화면으로 페이지 이동 이런 느낌..<br>
+	location: url<br>
+	screen: 해상도 etc<br>
+	navigator: 브라우저<br>
+	
+	<br><br>
+	DOM<br>
+	1. tag 찾는 법: getElementById, getElementsByTagName, ... <br>
+	&nbsp;&nbsp; id 빼고 다 Element 뒤에 s 붙는다<br>
+	
+	
+	
+</p>
+
+<script>
+	/* win을 재정의해서 그런가 const로 주니까 안 먹히는 듯 */
+	let win;
+	const lis = document.getElementsByTagName("li");
+	lis[0].addEventListener("click", function(){	
+		win = window.open("", "test", "width=300, height=300");
+	});
+	
+	/* Element 뒤에 s 붙는 건 list로 들어오는 거기 때문에 인덱스 표시해줘야 하는 듯 */
+	const my = document.getElementsByClassName("my");
+	my[0].addEventListener("click", function(){
+		win.close();
+	});
+	
+	/* moveTo: 절대좌표, moveBy: 상대좌표 */
+	const limove = document.getElementById("limove");
+	limove.addEventListener("click", function(){
+		win.moveBy(100, 100);
+	});
+	
+	
+	
+</script>
+
+</body>
+</html>

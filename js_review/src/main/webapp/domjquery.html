@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+	<h3 id="title">DOM</h3>
+	<br>
+	<!-- 체크박스는 여러 개 있는 경우가 많기 때문에 id 안 쓰고 name -->
+	<form id="frm" name="frm">
+		<input name="userid">
+		<input type="checkbox" name="hobby">독서
+		<input type="checkbox" name="hobby">운동
+		<select id="fruit" name="fruit"></select><br>
+		<button formaction="bom.html">submit</button>
+	</form>
+	
+	<button type="button" id="btn3">폼전송</button><br>
+	<button type="button" id="btn1">사라지게 하는 버튼</button>
+	<button type="button" id="btn2">나타나게 하는 버튼</button><br>
+	<img src="세븐틴.jpg" id="svt" style="width: 450px; height: 300px;">
+
+	
+<script>
+	$('#btn1').on('click', function(){
+		$('#svt').slideUp(); // .hide(); //css('display', 'none');
+	});
+	
+	$('#btn2').on('click', function(){
+		$('#svt').slideDown(2000); // .show(2000); //css('display', 'block');
+	});
+	
+	
+	// 이미지 속성 변경
+	// $('#svt').attr('src', '더보이즈1.jpg')
+	
+	
+	
+</script>
+</body>
+</html>
